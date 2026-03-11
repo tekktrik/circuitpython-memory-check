@@ -2,7 +2,7 @@ import shutil
 import tomllib
 import os
 
-with open("pyproject.toml") as tomlfile:
+with open("pyproject.toml", mode="rb") as tomlfile:
     pyproject = tomllib.load(tomlfile)
 
 setuptools = pyproject["tool"]["setuptools"]
