@@ -44,7 +44,9 @@ runs:
         install \
         -r requirements.txt
     - name: Prepare nativesim environment
-      uses: tekktrik/simulate-circuitpython-nativesim@v1
+      uses: tekktrik/simulate-circuitpython-nativesim/build-firmware@main
+      with:
+        version: 10.1.3
     - name: Download simulator library
       shell: bash
       run: pip install simulate-circuitpython-nativesim
