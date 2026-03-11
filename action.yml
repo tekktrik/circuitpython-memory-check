@@ -4,7 +4,7 @@ inputs:
   version:
     description: 'Version of CircuitPython to simulate'
     required: true
-    default: main
+    default: main  # This should be "latest" eventually, and version autodetected
   circuitpython-folder:
     description: 'Folder name to use for the CircuitPython checkout'
     required: true
@@ -35,7 +35,14 @@ runs:
       run: pipx install circup
     - name: Copy library dependencies to CIRCUITPY
       shell: bash
-      run: circup --path CIRCUITPY install -r requirements.txt
+      # TODO: Change this to use given or autodetected version
+      run: |
+        circup \
+        --path CIRCUITPY \
+        --cpy-version 10.1.3 \
+        --board-id raspberry-pi-pico \
+        install \
+        -r requirements.txt
     - name: Prepare nativesim environment
       uses: tekktrik/simulate-circuitpython-nativesim@v1
     - name: Download simulator library
