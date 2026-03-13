@@ -1,8 +1,8 @@
+import json
 import os
 import pathlib
 import tomllib
 
-import circuitpy_sim
 
 with open("pyproject.toml", mode="rb") as tomlfile:
     pyproject = tomllib.load(tomlfile)
@@ -37,15 +37,6 @@ for path in import_paths:
         path_like = path_like[:-3]
     import_names.add(path_like)
 
-simulator = circuitpy_sim.Simualtor()
+imports_json = json.dumps(list(import_names))
 
-for name in import_names:
-    code_file = pathlib.Path("CIRCUITPY/code.py")
-    code_text = (
-        f"print({name})"
-    )
-    with open(code_file, mode="w") as code_fp:
-        code_fp.write(code_text)
-
-    result = simulator.simulate()
-    print(result)
+print(imports_json)
