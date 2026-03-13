@@ -22,7 +22,7 @@ runs:
     - name: Setup Python 3.12
       uses: actions/setup-python@v6
       with:
-        python-version: 3.12
+        python-version: "3.12"
     - name: Checkout the repository
       uses: actions/checkout@v6
     - name: Copy library to drive
@@ -34,17 +34,12 @@ runs:
     - name: Create code.py
       shell: bash
       run: python ${{ github.action_path }}/../scripts/create_code.py ${{ inputs.import-name }}
-    - name: Build nativesim firmware
-      uses: tekktrik/simulate-circuitpython-nativesim/build-firmware@main
-      with:
-        version: 10.1.4
-        circuitpy: CIRCUITPY
     - name: Copy library dependencies to CIRCUITPY
       shell: bash
       # TODO: Change this to use given or autodetected version
       run: |
         circup \
-        --path ${{ inputs.circuitpython-folder }}/ports/zephyr-cp \
+        --path CIRCUITPY \
         --cpy-version 10.1.4 \
         --board-id raspberry-pi-pico \
         install \
@@ -52,15 +47,21 @@ runs:
     - name: Prepare flash
       uses: tekktrik/simulate-circuitpython-nativesim/prepare-flash@main
       with:
-        version: 10.1.4
         circuitpy: CIRCUITPY
-    - name: Install simulator }/../scripts/copy_library.py
+    - name: Download firmware artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: firmware.exe
+        path: '.'
+    - name: Make executable
       shell: bash
-      # EIther use PyPI or tag to pin
+      run: chmod +x firmware.exe
+    - name: Install simulator
+      shell: bash
+      # Either use PyPI or tag to pin
       run: pip install git+https://github.com/tekktrik/simulate-circuitpython-nativesim@main
     - name: Run analysis
       shell: bash
-      working-directory: ${{ inputs.circuitpython-folder }}/ports/zephyr-cp
       run: |
-        python ${{ github.action_path }}/../scripts/check_memory.py ${{ inputs.import-name }}
+        python ${{ github.action_path }}/../scripts/check_memory.py firmware.exe flash.bin ${{ inputs.import-name }}
     

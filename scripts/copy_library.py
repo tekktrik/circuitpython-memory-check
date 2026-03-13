@@ -1,6 +1,7 @@
 import shutil
 import tomllib
 import os
+import pathlib
 
 with open("pyproject.toml", mode="rb") as tomlfile:
     pyproject = tomllib.load(tomlfile)
@@ -8,6 +9,8 @@ with open("pyproject.toml", mode="rb") as tomlfile:
 setuptools = pyproject["tool"]["setuptools"]
 
 circuitpy_folder = os.path.join(os.getcwd(), "CIRCUITPY")
+
+pathlib.Path(circuitpy_folder).mkdir()
 
 if "py-modules" in setuptools:
     library_file = setuptools["py-modules"][0] + ".py"

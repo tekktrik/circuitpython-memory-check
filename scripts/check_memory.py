@@ -3,9 +3,11 @@ import sys
 
 import circuitpy_sim
 
-import_name = sys.argv[1]
+firmware_filepath = sys.argv[1]
+flash_filepath = sys.argv[2]
+import_name = sys.argv[3]
 
-simulator = circuitpy_sim.Simualtor()
+simulator = circuitpy_sim.Simualtor(firmware_filepath, flash_filepath)
 
 result = simulator.simulate()
 result_json = json.dumps(result)
