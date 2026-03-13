@@ -9,7 +9,8 @@ code_text = (
     "pre = gc.mem_free()\n"
     f"import {import_name}\n"
     "post = gc.mem_free()\n"
-    "used = pre - post"
+    "used = pre - post\n"
+    "print(used)"
 )
 with open(code_file, mode="w") as code_fp:
     code_fp.write(code_text)
