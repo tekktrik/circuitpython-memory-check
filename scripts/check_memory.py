@@ -5,8 +5,10 @@ import circuitpy_sim
 
 firmware_filepath = sys.argv[1]
 flash_filepath = sys.argv[2]
-import_name = sys.argv[3]
+circuitpy_filepath = sys.argv[3]
+import_name = sys.argv[4]
 
+circuitpy_sim.Simualtor.prepare_flash(flash_filepath, circuitpy_filepath)
 result = circuitpy_sim.Simualtor.simulate(firmware_filepath, flash_filepath)
 result_json = json.dumps(result)
 

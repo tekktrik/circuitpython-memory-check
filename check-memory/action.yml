@@ -19,6 +19,18 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Install system dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          libusb-1.0-0-dev \
+          libudev-dev \
+          mtools \
+          protobuf-compiler \
+          dosfstools \
+          gcc-multilib \
+          g++-multilib
     - name: Setup Python 3.12
       uses: actions/setup-python@v6
       with:
@@ -44,10 +56,10 @@ runs:
         --board-id raspberry-pi-pico \
         install \
         -r requirements.txt
-    - name: Prepare flash
-      uses: tekktrik/simulate-circuitpython-nativesim/prepare-flash@main
-      with:
-        circuitpy: CIRCUITPY
+    # - name: Prepare flash
+    #   uses: tekktrik/simulate-circuitpython-nativesim/prepare-flash@main
+    #   with:
+    #     circuitpy: CIRCUITPY
     - name: Download firmware artifact
       uses: actions/download-artifact@v8
       with:
@@ -63,5 +75,9 @@ runs:
     - name: Run analysis
       shell: bash
       run: |
-        python ${{ github.action_path }}/../scripts/check_memory.py firmware.exe flash.bin ${{ inputs.import-name }}
+        python ${{ github.action_path }}/../scripts/check_memory.py \
+        firmware.exe \
+        flash.bin \
+        CIRCUITPY \
+        ${{ inputs.import-name }}
     
