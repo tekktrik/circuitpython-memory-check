@@ -5,10 +5,6 @@ inputs:
     description: 'Version of CircuitPython to simulate'
     required: true
     default: main  # This should be "latest" eventually, and version autodetected
-  circuitpython-folder:
-    description: 'Folder name to use for the CircuitPython checkout'
-    required: true
-    default: 'cpysim'
   branch:
     description: 'Name of repository branch to analyze'
     required: true

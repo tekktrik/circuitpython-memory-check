@@ -9,18 +9,6 @@ inputs:
     description: 'Folder name to use for the CircuitPython checkout'
     required: true
     default: 'cpysim'
-  main-branch:
-    description: 'Name of main branch of repository'
-    required: true
-    default: main
-  results-filepath:
-    description: 'Filepath to where the results file should be written (as a JSON file)'
-    required: true
-    default: './results.json'
-  original-results-filepath:
-    description: 'Filepath to where the original results file should be written (as a JSON file)'
-    required: true
-    default: './original_results.json'
 runs:
   using: "composite"
   steps:
