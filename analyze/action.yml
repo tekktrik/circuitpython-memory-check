@@ -33,7 +33,7 @@ runs:
       id: find-imports
       shell: bash
       run: |
-        IMPORTS_FOUND=$(python ${{ github.action_path }}/scripts/find_imports.py)
+        IMPORTS_FOUND=$(python ${{ github.action_path }}/../scripts/find_imports.py)
         echo "imports-found=$IMPORTS_FOUND" >> "$GITHUB_OUTPUT"
     - name: Create CIRCUITPY for simulator
       shell: bash
@@ -59,11 +59,11 @@ runs:
       run: pip install simulate-circuitpython-nativesim~=2.0
     - name: Copy library to drive
       shell: bash
-      run: python ${{ github.action_path }}/scripts/copy_library.py
+      run: python ${{ github.action_path }}/../scripts/copy_library.py
     - name: Run simulator via script
       shell: bash
       run: |
-        python ${{ github.action_path }}/scripts/check_memory.py \
+        python ${{ github.action_path }}/../scripts/check_memory.py \
         firmware.exe \
         flash.bin \
         CIRCUITPY \
