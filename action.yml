@@ -83,7 +83,7 @@ runs:
       run: python ${{ github.action_path }}/scripts/delete_library.py
     - name: Checkout main branch
       shell: bash
-      run: git checkout ${{ inputs.main-branch }}
+      run: git switch ${{ inputs.main-branch }}
     - name: Copy library to drive
       shell: bash
       run: python ${{ github.action_path }}/scripts/copy_library.py
