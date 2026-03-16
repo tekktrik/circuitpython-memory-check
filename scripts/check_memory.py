@@ -8,8 +8,8 @@ flash_filepath = sys.argv[2]
 circuitpy_filepath = sys.argv[3]
 import_name = sys.argv[4]
 
-circuitpy_sim.Simualtor.prepare_flash(flash_filepath, circuitpy_filepath)
-result = circuitpy_sim.Simualtor.simulate(firmware_filepath, flash_filepath)
+circuitpy_sim.prepare_flash(flash_filepath, circuitpy_filepath)
+result = circuitpy_sim.simulate(firmware_filepath, flash_filepath)
 result_json = json.dumps(result)
 
 with open(import_name + ".json", mode="w") as jsonfile:
