@@ -23,9 +23,9 @@ runs:
     - name: Checkout the repository
       uses: actions/checkout@v6
     - name: Setup system dependencies
-      uses: tekktrik/simulate-circuitpython-nativesim/prepare-system@main
+      uses: tekktrik/simulate-circuitpython-nativesim/prepare-system@v2
     - name: Build nativesim firmware
-      uses: tekktrik/simulate-circuitpython-nativesim/build-firmware@main
+      uses: tekktrik/simulate-circuitpython-nativesim/build-firmware@v2
       with:
         # TODO: Change this to use given or autodetected version
         version: 10.1.4
@@ -57,8 +57,7 @@ runs:
       run: chmod +x firmware.exe
     - name: Install simulator
       shell: bash
-      # Either use PyPI or tag to pin
-      run: pip install git+https://github.com/tekktrik/simulate-circuitpython-nativesim@main
+      run: pip install simulate-circuitpython-nativesim~=2.0
     - name: Run simulator via script
       shell: bash
       run: |
