@@ -1,7 +1,6 @@
-import shutil
 import tomllib
 import os
-import pathlib
+import shutil
 
 with open("pyproject.toml", mode="rb") as tomlfile:
     pyproject = tomllib.load(tomlfile)
@@ -17,6 +16,6 @@ if "py-modules" in setuptools:
 elif "packages" in setuptools:
     library_folder = setuptools["packages"][0]
     drive_folder = os.path.join(circuitpy_folder, library_folder)
-    os.rmdir(drive_folder)
+    shutil.rmtree(drive_folder)
 else:
     raise KeyError("Neither modules nor packages are defined in pyproject.toml")
