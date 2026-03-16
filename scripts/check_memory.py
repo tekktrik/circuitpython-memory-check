@@ -7,7 +7,9 @@ firmware_filepath = sys.argv[1]
 flash_filepath = sys.argv[2]
 circuitpy_filepath = sys.argv[3]
 import_names: list[str] = json.loads(sys.argv[4])
+results_filepath = sys.argv[5]
 
+results = {}
 for import_name in import_names:
     code_text = (
         "import gc\n"
@@ -22,9 +24,16 @@ for import_name in import_names:
 
     circuitpy_sim.prepare_flash(flash_filepath, circuitpy_filepath)
     result = circuitpy_sim.simulate(firmware_filepath, flash_filepath)
-    result_json = json.dumps(result)
 
-    with open(import_name + ".json", mode="w") as jsonfile:
-        jsonfile.write(result)
+    try:
+        result_parsed = int(result)
+    except ValueError:
+        print(f"Could not parse result of {import_name}, received:", result)
+        continue
+
+    results[import_name] = result_parsed
 
     print(f"Import size of {import_name}: {result}")
+
+with open(results_filepath, mode="w") as jsonfile:
+    json.dump(results, jsonfile)

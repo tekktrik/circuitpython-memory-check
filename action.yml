@@ -9,10 +9,10 @@ inputs:
     description: 'Folder name to use for the CircuitPython checkout'
     required: true
     default: 'cpysim'
-outputs:
-  memory-table:
-    description: 'The amount of memory used by importing, as a table'
-    value: TBD
+  results-filepath:
+    description: 'Filepath to where the results file should be written (as a JSON file)'
+    required: true
+    default: 'results.json'
 runs:
   using: "composite"
   steps:
@@ -65,5 +65,6 @@ runs:
         firmware.exe \
         flash.bin \
         CIRCUITPY \
-        ${{ toJson(steps.find-imports.outputs.imports-found) }}
+        ${{ toJson(steps.find-imports.outputs.imports-found) }} \
+        "${{ inputs.results-filepath }}"
     
