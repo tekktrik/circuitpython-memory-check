@@ -10,8 +10,6 @@ setuptools = pyproject["tool"]["setuptools"]
 
 circuitpy_folder = os.path.join(os.getcwd(), "CIRCUITPY")
 
-os.mkdir(circuitpy_folder)
-
 if "py-modules" in setuptools:
     library_file = setuptools["py-modules"][0] + ".py"
     shutil.copy(library_file, circuitpy_folder)

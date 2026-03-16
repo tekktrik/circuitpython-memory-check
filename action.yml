@@ -44,6 +44,9 @@ runs:
       run: |
         IMPORTS_FOUND=$(python ${{ github.action_path }}/scripts/find_imports.py)
         echo "imports-found=$IMPORTS_FOUND" >> "$GITHUB_OUTPUT"
+    - name: Create CIRCUITPY for simulator
+      shell: bash
+      run: mkdir CIRCUITPY
     - name: Download circup
       shell: bash
       run: pipx install circup
