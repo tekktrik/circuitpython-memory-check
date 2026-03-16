@@ -1,5 +1,5 @@
-name: 'CircuitPython Memory Check'
-description: 'Import a CircuitPython library and check the amount of RAM used'
+name: 'CircuitPython Memory Comparison'
+description: 'Compare two different memory usage results'
 inputs:
   results-filepath:
     description: 'Filepath to where the results file should be written (as a JSON file)'
