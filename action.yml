@@ -36,8 +36,6 @@ runs:
       run: |
         IMPORTS_FOUND=$(python ${{ github.action_path }}/scripts/find_imports.py)
         echo "imports-found=$IMPORTS_FOUND" >> "$GITHUB_OUTPUT"
-    # TODO: Convert into simulator action: prepare-system
-    # TODO: Fold into a single action
     - name: Copy library to drive
       shell: bash
       run: python ${{ github.action_path }}/scripts/copy_library.py
