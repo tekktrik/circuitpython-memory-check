@@ -1,0 +1,43 @@
+name: 'CircuitPython Memory Check'
+description: 'Import a CircuitPython library and check the amount of RAM used'
+inputs:
+  version:
+    description: 'Version of CircuitPython to simulate'
+    required: true
+    default: main  # This should be "latest" eventually, and version autodetected
+  circuitpython-folder:
+    description: 'Folder name to use for the CircuitPython checkout'
+    required: true
+    default: 'cpysim'
+  main-branch:
+    description: 'Name of main branch of repository'
+    required: true
+    default: main
+  results-filepath:
+    description: 'Filepath to where the results file should be written (as a JSON file)'
+    required: true
+    default: './results.json'
+  original-results-filepath:
+    description: 'Filepath to where the original results file should be written (as a JSON file)'
+    required: true
+    default: './original_results.json'
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Python 3.12
+      uses: actions/setup-python@v6
+      with:
+        python-version: "3.12"
+    - name: Setup system dependencies
+      uses: tekktrik/simulate-circuitpython-nativesim/prepare-system@v2
+    - name: Build nativesim firmware
+      uses: tekktrik/simulate-circuitpython-nativesim/build-firmware@v2
+      with:
+        # TODO: Change this to use given or autodetected version
+        version: 10.1.4
+        firmware-filepath: ./firmware.exe
+    - name: Upload firmware as artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: firmware.exe
+        path: ./firmware.exe

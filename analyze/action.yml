@@ -1,0 +1,80 @@
+name: 'CircuitPython Memory Check'
+description: 'Import a CircuitPython library and check the amount of RAM used'
+inputs:
+  version:
+    description: 'Version of CircuitPython to simulate'
+    required: true
+    default: main  # This should be "latest" eventually, and version autodetected
+  circuitpython-folder:
+    description: 'Folder name to use for the CircuitPython checkout'
+    required: true
+    default: 'cpysim'
+  branch:
+    description: 'Name of repository branch to analyze'
+    required: true
+    default: ''
+  results-filepath:
+    description: 'Filepath to where the results file should be written (as a JSON file)'
+    required: true
+    default: './results.json'
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Python 3.12
+      uses: actions/setup-python@v6
+      with:
+        python-version: "3.12"
+    - name: Checkout the repository
+      uses: actions/checkout@v6
+      with:
+        ref: ${{ inputs.branch }}
+    - name: Download firmware artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: firmware.exe
+        path: '.'
+    - name: Find imports
+      id: find-imports
+      shell: bash
+      run: |
+        IMPORTS_FOUND=$(python ${{ github.action_path }}/scripts/find_imports.py)
+        echo "imports-found=$IMPORTS_FOUND" >> "$GITHUB_OUTPUT"
+    - name: Create CIRCUITPY for simulator
+      shell: bash
+      run: mkdir CIRCUITPY
+    - name: Download circup
+      shell: bash
+      run: pipx install circup
+    - name: Copy library dependencies to CIRCUITPY
+      shell: bash
+      # TODO: Change this to use given or autodetected version
+      run: |
+        circup \
+        --path CIRCUITPY \
+        --cpy-version 10.1.4 \
+        --board-id raspberry-pi-pico \
+        install \
+        -r requirements.txt
+    - name: Make firmware executable
+      shell: bash
+      run: chmod +x firmware.exe
+    - name: Install simulator
+      shell: bash
+      run: pip install simulate-circuitpython-nativesim~=2.0
+    - name: Copy library to drive
+      shell: bash
+      run: python ${{ github.action_path }}/scripts/copy_library.py
+    - name: Run simulator via script
+      shell: bash
+      run: |
+        python ${{ github.action_path }}/scripts/check_memory.py \
+        firmware.exe \
+        flash.bin \
+        CIRCUITPY \
+        ${{ toJson(steps.find-imports.outputs.imports-found) }} \
+        "${{ inputs.results-filepath }}"
+    - name: Upload results file as artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{ inputs.results-filepath }}
+        path: ./${{ inputs.results-filepath }}

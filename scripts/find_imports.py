@@ -3,7 +3,6 @@ import os
 import pathlib
 import tomllib
 
-
 with open("pyproject.toml", mode="rb") as tomlfile:
     pyproject = tomllib.load(tomlfile)
 
