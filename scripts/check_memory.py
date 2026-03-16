@@ -29,7 +29,7 @@ for import_name in import_names:
         result_parsed = int(result)
     except ValueError:
         print(f"Could not parse result of {import_name}, received:", result)
-        continue
+        result_parsed = None
 
     results[import_name] = result_parsed
 

@@ -9,10 +9,18 @@ inputs:
     description: 'Folder name to use for the CircuitPython checkout'
     required: true
     default: 'cpysim'
+  main-branch:
+    description: 'Name of main branch of repository'
+    required: true
+    default: main
   results-filepath:
     description: 'Filepath to where the results file should be written (as a JSON file)'
     required: true
-    default: 'results.json'
+    default: './results.json'
+  original-results-filepath:
+    description: 'Filepath to where the original results file should be written (as a JSON file)'
+    required: true
+    default: './original_results.json'
 runs:
   using: "composite"
   steps:
@@ -36,9 +44,6 @@ runs:
       run: |
         IMPORTS_FOUND=$(python ${{ github.action_path }}/scripts/find_imports.py)
         echo "imports-found=$IMPORTS_FOUND" >> "$GITHUB_OUTPUT"
-    - name: Copy library to drive
-      shell: bash
-      run: python ${{ github.action_path }}/scripts/copy_library.py
     - name: Download circup
       shell: bash
       run: pipx install circup
@@ -58,6 +63,9 @@ runs:
     - name: Install simulator
       shell: bash
       run: pip install simulate-circuitpython-nativesim~=2.0
+    - name: Copy library to drive
+      shell: bash
+      run: python ${{ github.action_path }}/scripts/copy_library.py
     - name: Run simulator via script
       shell: bash
       run: |
@@ -67,4 +75,28 @@ runs:
         CIRCUITPY \
         ${{ toJson(steps.find-imports.outputs.imports-found) }} \
         "${{ inputs.results-filepath }}"
+    - name: Delete current library from drive
+      shell: bash
+      run: python ${{ github.action_path }}/scripts/delete_library.py
+    - name: Checkout main branch
+      shell: bash
+      run: git checkout ${{ inputs.main-branch }}
+    - name: Copy library to drive
+      shell: bash
+      run: python ${{ github.action_path }}/scripts/copy_library.py
+    - name: Run simulator via script
+      shell: bash
+      run: |
+        python ${{ github.action_path }}/scripts/check_memory.py \
+        firmware.exe \
+        flash.bin \
+        CIRCUITPY \
+        ${{ toJson(steps.find-imports.outputs.imports-found) }} \
+        "${{ inputs.original-results-filepath }}"
+    - name: Run analysis
+      shell: bash
+      run: |
+        python ${{ github.action_path }}/scripts/analyze_memory.py \
+        "${{ inputs.results-filepath }}" \
+        "${{ inputs.original-results-filepath }}"
     
