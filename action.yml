@@ -66,5 +66,5 @@ runs:
         firmware.exe \
         flash.bin \
         CIRCUITPY \
-        '${{ toJson(steps.find-imports.outputs.imports-found) }}'
+        ${{ toJson(steps.find-imports.outputs.imports-found) }}
     
