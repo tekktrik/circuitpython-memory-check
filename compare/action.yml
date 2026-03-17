@@ -33,7 +33,7 @@ runs:
     - name: Run analysis
       shell: bash
       run: |
-        python ${{ github.action_path }}/scripts/compare_memory.py \
+        python ${{ github.action_path }}/../scripts/compare_memory.py \
         "${{ inputs.results-filename }}" \
         "${{ inputs.original-results-filename }}" \
         "${{ inputs.analysis-results-filename }}"
