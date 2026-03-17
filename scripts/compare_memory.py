@@ -96,7 +96,7 @@ changed_text = ""
 if changed_import_sizes:
     changed_text = "The following imports were changed and triggered warnings:\n\n"
     for import_name, import_stats in changed_import_sizes.items():
-        changed_text += f"- {import_name}: {import_stats.original_size} -> {import_stats.current_size} bytes ({import_stats.diff}B, {import_stats.growth_percent * 10}% growth)\n"
+        changed_text += f"- {import_name}: {import_stats.original_size} -> {import_stats.current_size} bytes ({import_stats.diff} bytes, {round(import_stats.growth_percent * 100, 2)}% growth)\n"
     changed_text += "\n"
 
 ignored_text = ""
