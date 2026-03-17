@@ -99,7 +99,9 @@ for import_name in new_imports:
 added_text = ""
 if added_import_sizes:
     added_text = "The following imports were added:\n\n"
-    for import_name, import_size in added_import_sizes.items():
+    for import_name, import_size in sorted(
+        added_import_sizes.items(), key=lambda item: item[0]
+    ):
         added_text += f"- {import_name}: {import_size} bytes\n"
     added_text += "\n"
 
@@ -107,7 +109,9 @@ if added_import_sizes:
 changed_text = ""
 if changed_import_sizes:
     changed_text = "The following imports were changed:\n\n"
-    for import_name, import_stats in changed_import_sizes.items():
+    for import_name, import_stats in sorted(
+        changed_import_sizes.items(), key=lambda item: item[0]
+    ):
         changed_text += f"- {import_name}: {import_stats.original_size} -> {import_stats.current_size} bytes ({import_stats.diff} bytes, {round(import_stats.growth_percent * 100, 2)}% growth)\n"
     changed_text += "\n"
 
@@ -115,15 +119,17 @@ if changed_import_sizes:
 unchanged_text = ""
 if unchanged_import_sizes:
     unchanged_text = "The following imports stayed the same:\n\n"
-    for import_name, import_size in unchanged_import_sizes.items():
+    for import_name, import_size in sorted(
+        unchanged_import_sizes.items(), key=lambda item: item[0]
+    ):
         unchanged_text += f"- {import_name}: {import_size} bytes\n"
     unchanged_text += "\n"
 
 # Create text for ignored
 ignored_text = ""
 if ignored_imports:
-    ignored_text = "The following imports could not be measured and were ignored (see workflow artifacts):\n\n"
-    for import_name in ignored_imports:
+    ignored_text = "The following imports could not be measured and were ignored (see workflow and artifacts):\n\n"
+    for import_name in sorted(ignored_imports):
         ignored_text += f"- {import_name}\n"
     ignored_text += "\n"
 
