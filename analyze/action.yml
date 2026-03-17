@@ -20,7 +20,7 @@ runs:
   using: "composite"
   steps:
     - name: Setup system dependencies
-      uses: tekktrik/simulate-circuitpython-nativesim/prepare-system@v2
+      uses: tekktrik/simulate-circuitpython-nativesim/prepare-system@v3
     - name: Setup Python 3.12
       uses: actions/setup-python@v6
       with:
@@ -64,7 +64,7 @@ runs:
       run: chmod +x firmware.exe
     - name: Install simulator
       shell: bash
-      run: pip install simulate-circuitpython-nativesim~=2.0
+      run: pip install simulate-circuitpython-nativesim~=3.0
     - name: Copy library to drive
       shell: bash
       run: python ${{ github.action_path }}/../scripts/copy_library.py
