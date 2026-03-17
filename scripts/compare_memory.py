@@ -70,8 +70,7 @@ for import_name in shared_imports:
     diff_triggered = size_diff >= GROWTH_AMOUNT_THRESHOLD
     mult_triggered = size_growth >= GROWTH_PERCENT_THRESHOLD
 
-    if size_triggered or diff_triggered or mult_triggered:
-        changed_import_sizes[import_name] = ImportStats(original_size, current_size, size_diff, size_growth)
+    changed_import_sizes[import_name] = ImportStats(original_size, current_size, size_diff, size_growth)
 
 # Include newly added imports
 for import_name in new_imports:
@@ -84,10 +83,7 @@ for import_name in new_imports:
 
     # results_diffs[import_name] = ImportStats(current_size, 0, 0)
 
-    size_triggered = current_size >= SMALL_BOARD_THRESHOLD
-
-    if size_triggered:
-        added_import_sizes[import_name] = current_size
+    added_import_sizes[import_name] = current_size
 
 added_text = ""
 if added_import_sizes:
