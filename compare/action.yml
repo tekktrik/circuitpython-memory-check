@@ -20,6 +20,16 @@ runs:
       uses: actions/setup-python@v6
       with:
         python-version: "3.12"
+    - name: Download results artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: ${{ inputs.results-filename }}
+        path: '.'
+    - name: Download original results artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: ${{ inputs.original-results-filename }}
+        path: '.'
     - name: Run analysis
       shell: bash
       run: |
