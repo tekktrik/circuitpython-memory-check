@@ -13,7 +13,7 @@ inputs:
     required: true
     default: ''
   results-filename:
-    description: 'Filepath to where the results file should be written (as a JSON file)'
+    description: 'Filename for the results file should be written (as a JSON file)'
     required: true
     default: 'results.json'
 runs:

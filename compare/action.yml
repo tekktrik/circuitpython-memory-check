@@ -5,15 +5,15 @@ name: 'CircuitPython Memory Comparison'
 description: 'Compare two different memory usage results'
 inputs:
   results-filename:
-    description: 'Filepath to where the results file should be written (as a JSON file)'
+    description: 'Filename for the results file should be written (as a JSON file)'
     required: true
     default: 'results.json'
   original-results-filename:
-    description: 'Filepath to where the original results file should be written (as a JSON file)'
+    description: 'Filename for the original results file should be written (as a JSON file)'
     required: true
     default: 'original_results.json'
   analysis-results-filename:
-    description: 'Filepath to where the analysis text file will be written'
+    description: 'Filename for the analysis text file will be written'
     required: true
     default: 'memory_analysis.txt'
 runs:
