@@ -5,13 +5,17 @@ import shutil
 import tomllib
 import os
 
+# Open the repository's pyproject.toml
 with open("pyproject.toml", mode="rb") as tomlfile:
     pyproject = tomllib.load(tomlfile)
 
+# Get the setuptools table
 setuptools = pyproject["tool"]["setuptools"]
 
+# Get the intended CIRCUITPY filepath
 circuitpy_folder = os.path.join(os.getcwd(), "CIRCUITPY")
 
+# Get the library and copy to drive depending on if its a library of package
 if "py-modules" in setuptools:
     library_file = setuptools["py-modules"][0] + ".py"
     shutil.copy(library_file, circuitpy_folder)
