@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Alec Delaney
+# SPDX-License-Identifier: MIT
+
 name: 'CircuitPython Memory Check Preparation'
 description: 'Build the firmware to analyze imported memory'
 inputs:

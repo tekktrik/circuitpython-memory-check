@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Alec Delaney
+# SPDX-License-Identifier: MIT
+
 import json
 import sys
 
@@ -12,7 +15,9 @@ GROWTH_PERCENT_THRESHOLD = 0.5  # Import grows by 50%
 
 SMALL_BOARD_THRESHOLD = 24_000  # 75% of small board memory
 
-ImportStats = namedtuple("ImportStats", ["original_size", "current_size", "diff", "growth_percent"])
+ImportStats = namedtuple(
+    "ImportStats", ["original_size", "current_size", "diff", "growth_percent"]
+)
 
 results_filepath = sys.argv[1]
 original_results_filepath = sys.argv[2]
@@ -41,7 +46,7 @@ for import_name in shared_imports:
     current_size = results[import_name]
     original_size = original_results[import_name]
 
-    if current_size is None and  original_size is None:
+    if current_size is None and original_size is None:
         print(f"Cannot calculate new or previous import size for {import_name}")
         # results_diffs[import_name] = UNKNOWN_MARKER
         ignored_imports.append(import_name)
@@ -70,7 +75,9 @@ for import_name in shared_imports:
     diff_triggered = size_diff >= GROWTH_AMOUNT_THRESHOLD
     mult_triggered = size_growth >= GROWTH_PERCENT_THRESHOLD
 
-    changed_import_sizes[import_name] = ImportStats(original_size, current_size, size_diff, size_growth)
+    changed_import_sizes[import_name] = ImportStats(
+        original_size, current_size, size_diff, size_growth
+    )
 
 # Include newly added imports
 for import_name in new_imports:

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Alec Delaney
+# SPDX-License-Identifier: MIT
+
 import json
 import os
 import pathlib
@@ -24,7 +27,11 @@ for path in paths:
     import_paths.add(path)
     if path.is_dir():
         for matching_file in path.glob("**/*.py"):
-            matching_name = matching_file.parent if matching_file.name in ("__init__.py", "__main__.py") else matching_file
+            matching_name = (
+                matching_file.parent
+                if matching_file.name in ("__init__.py", "__main__.py")
+                else matching_file
+            )
             import_paths.add(matching_name)
 
 import_names = set()

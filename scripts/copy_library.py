@@ -1,7 +1,9 @@
+# SPDX-FileCopyrightText: 2026 Alec Delaney
+# SPDX-License-Identifier: MIT
+
 import shutil
 import tomllib
 import os
-import pathlib
 
 with open("pyproject.toml", mode="rb") as tomlfile:
     pyproject = tomllib.load(tomlfile)
