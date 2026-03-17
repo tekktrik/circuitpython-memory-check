@@ -9,10 +9,10 @@ inputs:
     description: 'Name of repository branch to analyze'
     required: true
     default: ''
-  results-filepath:
+  results-filename:
     description: 'Filepath to where the results file should be written (as a JSON file)'
     required: true
-    default: './results.json'
+    default: 'results.json'
 runs:
   using: "composite"
   steps:
@@ -70,9 +70,9 @@ runs:
         flash.bin \
         CIRCUITPY \
         ${{ toJson(steps.find-imports.outputs.imports-found) }} \
-        "${{ inputs.results-filepath }}"
+        "${{ inputs.results-filename }}"
     - name: Upload results file as artifact
       uses: actions/upload-artifact@v7
       with:
-        name: ${{ inputs.results-filepath }}
-        path: ${{ inputs.results-filepath }}
+        name: ${{ inputs.results-filename }}
+        path: ${{ inputs.results-filename }}
