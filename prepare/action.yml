@@ -24,8 +24,7 @@ runs:
     - name: Build nativesim firmware
       uses: tekktrik/simulate-circuitpython-nativesim/build-firmware@v2
       with:
-        # TODO: Change this to use given or autodetected version
-        version: 10.1.4
+        version: latest
         firmware-filepath: ./firmware.exe
     - name: Upload firmware as artifact
       uses: actions/upload-artifact@v7
