@@ -7,7 +7,7 @@ inputs:
   version:
     description: 'Version of CircuitPython to simulate'
     required: true
-    default: main  # This should be "latest" eventually, and version autodetected
+    default: latest
   circuitpython-folder:
     description: 'Folder name to use for the CircuitPython checkout'
     required: true
@@ -24,7 +24,7 @@ runs:
     - name: Build nativesim firmware
       uses: tekktrik/simulate-circuitpython-nativesim/build-firmware@v2
       with:
-        version: latest
+        version: ${{ inputs.version }}
         firmware-filepath: ./firmware.exe
     - name: Upload firmware as artifact
       uses: actions/upload-artifact@v7
