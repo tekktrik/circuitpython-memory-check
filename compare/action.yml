@@ -1,14 +1,18 @@
 name: 'CircuitPython Memory Comparison'
 description: 'Compare two different memory usage results'
 inputs:
-  results-filepath:
+  results-filename:
     description: 'Filepath to where the results file should be written (as a JSON file)'
     required: true
-    default: './results.json'
-  original-results-filepath:
+    default: 'results.json'
+  original-results-filename:
     description: 'Filepath to where the original results file should be written (as a JSON file)'
     required: true
-    default: './original_results.json'
+    default: 'original_results.json'
+  analysis-results-filename:
+    description: 'Filepath to where the analysis text file will be written'
+    required: true
+    default: 'memory_analysis.txt'
 runs:
   using: "composite"
   steps:
@@ -16,78 +20,16 @@ runs:
       uses: actions/setup-python@v6
       with:
         python-version: "3.12"
-    - name: Checkout the repository
-      uses: actions/checkout@v6
-    - name: Setup system dependencies
-      uses: tekktrik/simulate-circuitpython-nativesim/prepare-system@v2
-    - name: Build nativesim firmware
-      uses: tekktrik/simulate-circuitpython-nativesim/build-firmware@v2
-      with:
-        # TODO: Change this to use given or autodetected version
-        version: 10.1.4
-        firmware-filepath: ./firmware.exe
-    - name: Find imports
-      id: find-imports
-      shell: bash
-      run: |
-        IMPORTS_FOUND=$(python ${{ github.action_path }}/scripts/find_imports.py)
-        echo "imports-found=$IMPORTS_FOUND" >> "$GITHUB_OUTPUT"
-    - name: Create CIRCUITPY for simulator
-      shell: bash
-      run: mkdir CIRCUITPY
-    - name: Download circup
-      shell: bash
-      run: pipx install circup
-    - name: Copy library dependencies to CIRCUITPY
-      shell: bash
-      # TODO: Change this to use given or autodetected version
-      run: |
-        circup \
-        --path CIRCUITPY \
-        --cpy-version 10.1.4 \
-        --board-id raspberry-pi-pico \
-        install \
-        -r requirements.txt
-    - name: Make firmware executable
-      shell: bash
-      run: chmod +x firmware.exe
-    - name: Install simulator
-      shell: bash
-      run: pip install simulate-circuitpython-nativesim~=2.0
-    - name: Copy library to drive
-      shell: bash
-      run: python ${{ github.action_path }}/scripts/copy_library.py
-    - name: Run simulator via script
-      shell: bash
-      run: |
-        python ${{ github.action_path }}/scripts/check_memory.py \
-        firmware.exe \
-        flash.bin \
-        CIRCUITPY \
-        ${{ toJson(steps.find-imports.outputs.imports-found) }} \
-        "${{ inputs.results-filepath }}"
-    - name: Delete current library from drive
-      shell: bash
-      run: python ${{ github.action_path }}/scripts/delete_library.py
-    - name: Checkout main branch
-      shell: bash
-      run: git switch ${{ inputs.main-branch }}
-    - name: Copy library to drive
-      shell: bash
-      run: python ${{ github.action_path }}/scripts/copy_library.py
-    - name: Run simulator via script
-      shell: bash
-      run: |
-        python ${{ github.action_path }}/scripts/check_memory.py \
-        firmware.exe \
-        flash.bin \
-        CIRCUITPY \
-        ${{ toJson(steps.find-imports.outputs.imports-found) }} \
-        "${{ inputs.original-results-filepath }}"
     - name: Run analysis
       shell: bash
       run: |
-        python ${{ github.action_path }}/scripts/analyze_memory.py \
-        "${{ inputs.results-filepath }}" \
-        "${{ inputs.original-results-filepath }}"
+        python ${{ github.action_path }}/scripts/compare_memory.py \
+        "${{ inputs.results-filename }}" \
+        "${{ inputs.original-results-filename }}" \
+        "${{ inputs.analysis-results-filename }}"
+    - name: Upload analysis text as artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{ inputs.analysis-results-filename }}
+        path: ${{ inputs.analysis-results-filename }}
     
