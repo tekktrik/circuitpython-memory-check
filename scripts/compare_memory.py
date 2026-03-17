@@ -114,7 +114,7 @@ if changed_import_sizes:
 # Create text for unchanged
 unchanged_text = ""
 if unchanged_import_sizes:
-    unchanged_text = "The following imports were stayed the same:\n\n"
+    unchanged_text = "The following imports stayed the same:\n\n"
     for import_name, import_size in unchanged_import_sizes.items():
         unchanged_text += f"- {import_name}: {import_size} bytes\n"
     unchanged_text += "\n"
