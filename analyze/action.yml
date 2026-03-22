@@ -51,7 +51,6 @@ runs:
       uses: tekktrik/latest-circuitpython-version@v1
     - name: Copy library dependencies to CIRCUITPY
       shell: bash
-      # TODO: Change this to use given or autodetected version
       run: |
         circup \
         --path CIRCUITPY \
