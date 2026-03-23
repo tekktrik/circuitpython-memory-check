@@ -40,24 +40,12 @@ runs:
       run: |
         IMPORTS_FOUND=$(python ${{ github.action_path }}/../scripts/find_imports.py)
         echo "imports-found=$IMPORTS_FOUND" >> "$GITHUB_OUTPUT"
-    - name: Create CIRCUITPY for simulator
-      shell: bash
-      run: mkdir CIRCUITPY
-    - name: Download circup
-      shell: bash
-      run: pipx install circup
-    - name: Determine latest CircuitPython version (if necessary)
-      id: cpy-version
-      uses: tekktrik/latest-circuitpython-version@v1
-    - name: Copy library dependencies to CIRCUITPY
-      shell: bash
-      run: |
-        circup \
-        --path CIRCUITPY \
-        --cpy-version ${{ steps.cpy-version.outputs.version }} \
-        --board-id raspberry-pi-pico \
-        install \
-        -r requirements.txt
+    - name: Prepare CIRCUITPY
+      uses: tekktrik/simulate-circuitpython-nativesim/prepare-circuitpy@v3
+      with:
+        dependencies-file: requirements.txt
+        version: ${{ inputs.version }}
+        circuitpy: CIRCUITPY
     - name: Make firmware executable
       shell: bash
       run: chmod +x firmware.exe
