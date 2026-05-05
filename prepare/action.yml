@@ -26,6 +26,11 @@ runs:
       with:
         version: ${{ inputs.version }}
         firmware-filepath: ./firmware.exe
+    - name: TEMPORARY - Debug library paths
+      shell: bash
+      run: |
+        ldd /home/runner/work/Adafruit_CircuitPython_ImageLoad/Adafruit_CircuitPython_ImageLoad/firmware.exe
+        find /usr/lib -name "libSDL2*"
     - name: Upload firmware as artifact
       uses: actions/upload-artifact@v7
       with:
