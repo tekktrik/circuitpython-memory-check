@@ -51,7 +51,7 @@ runs:
       run: chmod +x firmware.exe
     - name: Install simulator
       shell: bash
-      run: pip install simulate-circuitpython-nativesim~=3.0
+      run: pip install git+https://github.com/tekktrik/simulate-circuitpython-nativesim@main
     - name: Copy library to drive
       shell: bash
       run: python ${{ github.action_path }}/../scripts/copy_library.py
