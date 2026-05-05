@@ -20,7 +20,7 @@ runs:
       with:
         python-version: "3.12"
     - name: Setup system dependencies
-      uses: tekktrik/simulate-circuitpython-nativesim/prepare-system@v3
+      uses: tekktrik/simulate-circuitpython-nativesim/prepare-system@main
     - name: Download nativesim firmware
       uses: tekktrik/simulate-circuitpython-nativesim/download-firmware@v3
       with:
