@@ -21,8 +21,8 @@ runs:
         python-version: "3.12"
     - name: Setup system dependencies
       uses: tekktrik/simulate-circuitpython-nativesim/prepare-system@v3
-    - name: Build nativesim firmware
-      uses: tekktrik/simulate-circuitpython-nativesim/build-firmware@v3
+    - name: Download nativesim firmware
+      uses: tekktrik/simulate-circuitpython-nativesim/download-firmware@v3
       with:
         version: ${{ inputs.version }}
         firmware-filepath: ./firmware.exe
